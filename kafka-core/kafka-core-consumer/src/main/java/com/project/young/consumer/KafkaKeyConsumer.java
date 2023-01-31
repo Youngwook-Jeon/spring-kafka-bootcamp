@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class KafkaKeyConsumer {
 
-    @KafkaListener(topics = "t-multi-partitions", concurrency = "3")
+//    @KafkaListener(topics = "t-multi-partitions", concurrency = "3")
     public void consume(ConsumerRecord<String, String> consumerRecord) throws InterruptedException {
         log.info("Key: {}, Partition: {}, Message: {}",
                 consumerRecord.key(), consumerRecord.partition(), consumerRecord.value()

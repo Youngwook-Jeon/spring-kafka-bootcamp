@@ -1,22 +1,21 @@
 package com.project.young;
 
-import com.project.young.producer.HelloKafkaProducer;
-import com.project.young.producer.KafkaKeyProducer;
+import com.project.young.entity.Employee;
+import com.project.young.producer.EmployeeJsonProducer2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
 
 @SpringBootApplication
 @EnableScheduling
 @RequiredArgsConstructor
 public class KafkaCoreProducerApplication implements CommandLineRunner {
 
-    private final KafkaKeyProducer producer;
+    private final EmployeeJsonProducer2 producer;
 
     public static void main(String[] args) {
         SpringApplication.run(KafkaCoreProducerApplication.class, args);
@@ -24,11 +23,9 @@ public class KafkaCoreProducerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i = 0; i < 10_000; i++) {
-            var key = "key-" + (i % 4);
-            var value = "value " + i + " with key " + key;
-            producer.send(key, value);
-            TimeUnit.SECONDS.sleep(1);
+        for (int i = 0; i < 5; i++) {
+            Employee emp = new Employee("emp-"+i, "Employee"+i, LocalDate.now());
+            producer.sendMessage(emp);
         }
     }
 }
