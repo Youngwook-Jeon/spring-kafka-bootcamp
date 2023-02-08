@@ -15,7 +15,7 @@ public class RebalanceProducer {
 
     private AtomicInteger counter = new AtomicInteger();
 
-    @Scheduled(fixedRate = 1000)
+//    @Scheduled(fixedRate = 1000)
     public void sendMessage() {
         kafkaTemplate.send("t-rebalance", "Counter " + counter.incrementAndGet());
     }
