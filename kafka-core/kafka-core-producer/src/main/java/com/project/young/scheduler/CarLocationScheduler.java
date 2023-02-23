@@ -26,7 +26,7 @@ public class CarLocationScheduler {
         carThree = new CarLocation("car-three", now, 95);
     }
 
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     public void generateLocation() throws JsonProcessingException {
         long now = System.currentTimeMillis();
         carOne.setTimestamp(now);

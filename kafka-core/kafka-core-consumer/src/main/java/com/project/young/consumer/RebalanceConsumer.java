@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class RebalanceConsumer {
 
-    @KafkaListener(topics = "t-rebalance", concurrency = "3")
+//    @KafkaListener(topics = "t-rebalance", concurrency = "3")
     public void consume(ConsumerRecord<String, String> consumerRecord) {
         log.info("Partition: {}, Offset: {}, Message: {}",
                 consumerRecord.partition(), consumerRecord.offset(), consumerRecord.value());

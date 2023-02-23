@@ -1,6 +1,8 @@
 package com.project.young;
 
+import com.project.young.entity.PaymentRequest;
 import com.project.young.entity.PurchaseRequest;
+import com.project.young.producer.PaymentRequestProducer;
 import com.project.young.producer.PurchaseRequestProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @RequiredArgsConstructor
 public class KafkaCoreProducerApplication implements CommandLineRunner {
 
-    private final PurchaseRequestProducer producer;
+    private final PaymentRequestProducer producer;
 
     public static void main(String[] args) {
         SpringApplication.run(KafkaCoreProducerApplication.class, args);
@@ -21,15 +23,28 @@ public class KafkaCoreProducerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        PurchaseRequest pr1 = new PurchaseRequest(5551, "pr-first", 991, "USD");
-        PurchaseRequest pr2 = new PurchaseRequest(5552, "pr-second", 992, "USD");
-        PurchaseRequest pr3 = new PurchaseRequest(5553, "pr-third", 993, "USD");
+        PaymentRequest paymentRequestAlpha_Transaction1 =
+                new PaymentRequest("Pay-Alpha", 551, "USD", "Notes alpha", "Budget reserve");
+        PaymentRequest paymentRequestAlpha_Transaction2 =
+                new PaymentRequest("Pay-Alpha", 551, "USD", "Notes alpha", "Approval workflow");
+        PaymentRequest paymentRequestAlpha_Transaction3 =
+                new PaymentRequest("Pay-Alpha", 551, "USD", "Notes alpha", "Push notification");
 
-        producer.send(pr1);
-        producer.send(pr2);
-        producer.send(pr3);
+        PaymentRequest paymentRequestBeta_Transaction1 =
+                new PaymentRequest("Pay-Beta", 552, "USD", "Notes beta", "Budget reserve");
+        PaymentRequest paymentRequestBeta_Transaction2 =
+                new PaymentRequest("Pay-Beta", 552, "USD", "Notes beta", "Approval workflow");
+        PaymentRequest paymentRequestBeta_Transaction3 =
+                new PaymentRequest("Pay-Beta", 552, "USD", "Notes beta", "Push notification");
+        producer.send(paymentRequestAlpha_Transaction1);
+        producer.send(paymentRequestAlpha_Transaction2);
+        producer.send(paymentRequestAlpha_Transaction3);
+        producer.send(paymentRequestBeta_Transaction1);
+        producer.send(paymentRequestBeta_Transaction2);
+        producer.send(paymentRequestBeta_Transaction3);
 
-        // duplicated message
-        producer.send(pr1);
+        // duplicated messages
+        producer.send(paymentRequestAlpha_Transaction2);
+        producer.send(paymentRequestBeta_Transaction3);
     }
 }
